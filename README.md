@@ -68,3 +68,6 @@ REDIS_URL
 ## 5. API 테스트 예시 화면
 <img width="1437" alt="스크린샷 2022-11-27 오후 10 17 21" src="https://user-images.githubusercontent.com/68360133/204137324-bb0c4536-1014-4405-a99f-7fe591366c20.png">
 
+## 6. API 흐름도
+![flow chart drawio](https://user-images.githubusercontent.com/68360133/204139063-01060973-30cb-4dbd-86d0-09d64e803c22.png)
+
