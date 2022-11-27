@@ -1,0 +1,191 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: String!
+  name: String!
+  email: String!
+  point: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type PointPayment {
+  id: String!
+  impUid: String
+  amount: Int
+  createdAt: DateTime
+  status: POINT_PAYMENT_STATUS_ENUM
+  user: User
+}
+
+enum POINT_PAYMENT_STATUS_ENUM {
+  PAYMENT
+  CANCEL
+}
+
+type ProductMaincategory {
+  id: String!
+  name: String!
+}
+
+type ProductSubcategory {
+  id: String!
+  name: String!
+  productMainCategory: ProductMaincategory!
+}
+
+type Product {
+  id: String!
+  name: String!
+  description: String
+  price: Float
+  kcal: Float
+  sugar: Float
+  protein: Float
+  saturated_fat: Float
+  salt: Float
+  caffeine: Float
+  danger_massage: String
+  productSubcategory: ProductSubcategory
+  productAllergys: [ProductAllergy!]
+}
+
+type ProductAllergy {
+  id: String!
+  name: String!
+  products: [Product!]!
+}
+
+type Order {
+  id: String!
+  orderDate: DateTime!
+  total_price: Int!
+  user: User!
+}
+
+type DetailOrder {
+  id: String!
+  order: Order!
+  product: Product!
+  quantity: Int!
+}
+
+type Branch {
+  id: String!
+  name: String
+  address: String
+  phone: String
+}
+
+type Query {
+  fetchUsers: [User!]!
+  fetchUser(email: String!): User!
+  fetchUserWithDeleted(email: String!): [User!]!
+  hello: String!
+  fetchProducts(search: String!): [Product!]!
+  fetchProduct(id: String!): Product!
+  fetchProductSubcategories: [ProductSubcategory!]!
+  fetchProductSubcategory(id: String!): ProductSubcategory!
+  fetchProductsMainCategories: [ProductMaincategory!]!
+  fetchProductMainCategory(name: String!): ProductMaincategory!
+  fetchOrders(userId: String!): [Order!]!
+  fetchDetailOrderById(orderId: String!): [DetailOrder!]!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(email: String!, updateUserInput: UpdateUserInput!): Boolean!
+  deleteUser(email: String!): Boolean!
+  restoreUser(email: String!): Boolean!
+  login(email: String!, password: String!): String!
+  logout: String!
+  restoreAccessToken: String!
+  createProduct(createProductInput: CreateProductInput!): Product!
+  updateProduct(id: String!, updateProductInput: UpdateProductInput!): Product!
+  deleteProduct(id: String!): Boolean!
+  createProductSubcategory(createProductSubCategoryInput: CreateProductSubcategoryInput!): ProductSubcategory!
+  updateProductSubcategory(id: String!, updateProductSubCategoryInput: UpdateProductSubcategoryInput!): ProductSubcategory!
+  deleteProductSubcategory(id: String!): Boolean!
+  createProductMainCategory(name: String!): ProductMaincategory!
+  updateProductMainCategory(id: String!, name: String!): ProductMaincategory!
+  deleteProductMainCategory(name: String!): Boolean!
+  createPointPayment(impUid: String!, amount: Int!): PointPayment!
+  cancelPointPayment(impUid: String!, amount: Int!, reason: String!): PointPayment!
+  uploadFiles(files: [Upload!]!): [String!]!
+  updateUploadFiles(files: Upload!, productId: String!): [String!]!
+  createOrder(createOrderInput: CreateOrderInput!): Order!
+}
+
+input CreateUserInput {
+  email: String!
+  password: String!
+  name: String!
+}
+
+input UpdateUserInput {
+  email: String
+  password: String
+  name: String
+}
+
+input CreateProductInput {
+  name: String!
+  description: String
+  price: Int!
+  kcal: Int = 0
+  sugar: Int = 0
+  protein: Int = 0
+  saturated_fat: Int = 0
+  salt: Int = 0
+  caffeine: Int = 0
+  danger_massage: String
+  productSubCategory: String
+  productAllergy: [String!]
+  productImageUrls: [String!]
+}
+
+input UpdateProductInput {
+  name: String
+  description: String
+  price: Int
+  kcal: Int = 0
+  sugar: Int = 0
+  protein: Int = 0
+  saturated_fat: Int = 0
+  salt: Int = 0
+  caffeine: Int = 0
+  danger_massage: String
+  productSubCategory: String
+  productAllergy: [String!]
+  productImageUrls: [String!]
+}
+
+input CreateProductSubcategoryInput {
+  name: String!
+  productMainCategoryId: String!
+}
+
+input UpdateProductSubcategoryInput {
+  name: String
+  productMainCategoryId: String
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+input CreateOrderInput {
+  user: String
+  detail_order: [DetailOrderInput!]
+}
+
+input DetailOrderInput {
+  productId: String!
+  quantity: Int!
+}
